@@ -5,21 +5,63 @@ const RoomPlanning = ({ planning, roomId, setUpdating }) => {
     const frenchDays = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"]
     const englishDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
 
-    const d = new Date()
-    const today = d.getDate()
+    const user = localStorage.getItem('user')
+    const userParsed = JSON.parse(user)
 
-    async function putFetch(d) {
+    async function putFetch(body) {
         try {
             await fetch(`http://localhost:3000/rooms/update/${roomId}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json'},
-            body: JSON.stringify(d)
+            body: JSON.stringify(body)
             })
             setUpdating(u => !u)
         }
         catch(error) {
             console.log('Updating error: ', error)
             setUpdating(u => !u)
+        }
+    }
+
+    async function postFetch(body) {
+        const token = userParsed.token
+        try {
+            await fetch(`http://localhost:3000/bookings/add/`, {
+                method: 'POST',
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'authorization': token
+                },
+                body: JSON.stringify(body)
+            })
+        }
+        catch(error) {
+            console.log('POST booking error: ', error)
+        }
+    }
+
+    function handleBooking(day, time, userParsed) {
+        if(userParsed === null) return
+        const putBody = {
+            day: day.day,
+            morning: day.morning,
+            afternoon: day.afternoon
+        }
+        time === "morning" && (
+            putBody.morning = false
+        )
+        time === "afternoon" && (
+            putBody.afternoon = false
+        )
+        const postBody = {
+            userId: userParsed.userId,
+            roomId: roomId,
+            time: time,
+            date: dayjs().format('YYYY-MM-DD')
+        }
+        if(userParsed.userId) {
+            putFetch(putBody)
+            postFetch(postBody)
         }
     }
 
@@ -40,11 +82,7 @@ const RoomPlanning = ({ planning, roomId, setUpdating }) => {
                                     variant="contained"
                                     color="success"
                                     disabled={!day.morning}
-                                    onClick={() => putFetch({
-                                            day: day.day,
-                                            morning: false,
-                                            afternoon: day.afternoon
-                                    })}
+                                    onClick={() => handleBooking(day, "morning", userParsed)}
                                 >
                                     Matin
                                 </Button>
@@ -53,11 +91,7 @@ const RoomPlanning = ({ planning, roomId, setUpdating }) => {
                                     color="success"
                                     variant="contained"
                                     disabled={!day.afternoon}
-                                    onClick={() => putFetch({
-                                            day: day.day,
-                                            morning: day.morning,
-                                            afternoon: false
-                                    })}
+                                    onClick={() => handleBooking(day, "afternoon", userParsed)}
                                 >
                                     Aprèm
                                 </Button>

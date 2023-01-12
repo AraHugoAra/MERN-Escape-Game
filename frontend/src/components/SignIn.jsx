@@ -14,10 +14,16 @@ const SignIn = () => {
                 body: JSON.stringify(body)
                 })
             const data = await response.json()
-            localStorage.setItem("token", JSON.stringify(data.token))
+            localStorage.setItem("user", JSON.stringify({
+                token: data.token,
+                userName: data.user[0].userName,
+                userId: data.user[0]._id
+            }))
+            window.location="/"
         }
         catch(error) {
             console.log('POST error: ', error)
+            alert('Cette paire identifiant/mot de passe est incorrecte.')
         }
     }
 
@@ -28,7 +34,7 @@ const SignIn = () => {
             password: e.target.elements.passwordInput.value
         }
         postFetch(body)
-        window.location="/"
+        e.target.reset()
     }
 
     return (
