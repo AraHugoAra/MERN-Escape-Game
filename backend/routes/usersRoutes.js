@@ -1,6 +1,7 @@
 const Users = require('../models/users')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
+const withAuth = require('../middlewares/withAuth')
 const saltRounds = 10
 
 const usersRoutes = (app) => {
@@ -54,20 +55,6 @@ const usersRoutes = (app) => {
             }
         }
     })
-
-    function withAuth(req, res, next) {
-        const token = req.headers['authorization']
-        if(token === null) {
-            res.json({status: 401, msg: "no token"})
-        }
-        jwt.verify(token, process.env.SECRET_TOKEN, function(err, decoded) {
-            if(err) {
-                res.json({status: 401, msg: "bad token"})
-            }
-            req.body._id = decoded._id
-            next()
-        })
-    }
 
     app.get('/checkToken', withAuth, async(req, res) => {
         const user = await Users.find({_id: req.body._id})

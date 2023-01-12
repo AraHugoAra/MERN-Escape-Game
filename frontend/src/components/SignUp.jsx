@@ -19,12 +19,12 @@ const SignUp = () => {
 
     const postFetch = async (body) => {
         try {
-            const response = await fetch('http://localhost:3000/users/add', {
+            await fetch('http://localhost:3000/users/add', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json'},
                 body: JSON.stringify(body)
                 })
-            console.log(response)
+            window.location = "/"
         }
         catch(error) {
             console.log('POST error: ', error)

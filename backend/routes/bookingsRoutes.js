@@ -1,4 +1,7 @@
+const  withAuth = require('../middlewares/withAuth');
 const Bookings = require('../models/bookings')
+
+const jwt = require('jsonwebtoken')
 
 const bookingsRoutes = (app) => {
 
@@ -20,10 +23,11 @@ const bookingsRoutes = (app) => {
             res.json({status:200, bookings:bookings})      
     })
 
-    app.post('/bookings/add/:id', async (req,res) => {
+    app.post('/bookings/add', async (req,res) => {
+        if(!req.body.userId) res.json({status: 401, msg: 'No user ID'})
         const data = {
             userId : req.body.userId,
-            roomId: req.params.id,
+            roomId: req.body.roomId,
             time: req.body.time,
             date: req.body.date
         }

@@ -20,7 +20,28 @@
     width: 86px;
     height: 40px;
 }
+header{
+   background: purple;
+   padding: 11px;
+ }
+ ul{
+   display: flex;
+   align-items: center;
+   margin: auto ;
+   max-width: 1250px;
+ }
+ /* img{
+   width: 80px;
+   height: auto;
+ } */
 
+ 
+ .connexion{
+   margin-left: auto;
+   text-transform: uppercase;
+   color: white;
+ }
+ 
  /* FORMS (SignIn & SignUp */
 
 .lock-background{
