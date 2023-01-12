@@ -22,26 +22,33 @@
 }
 header{
    background: purple;
-   padding: 11px;
+   padding: 0 11px;
+   height: 80px;
  }
- ul{
+ .header-list{
    display: flex;
    align-items: center;
    margin: auto ;
    max-width: 1250px;
+   justify-content: space-between;
+   color: white;
+   font-size: 1.5rem;
  }
- /* img{
-   width: 80px;
-   height: auto;
- } */
+ .header-history{
+   color: red;
+   text-decoration: none;
+ }
 
  
  .connexion{
-   margin-left: auto;
+   /* margin-left: auto; */
    text-transform: uppercase;
    color: white;
+   text-decoration: none;
  }
- 
+ /* .header-deconnexion{
+   color: white;
+ } */
  /* FORMS (SignIn & SignUp */
 
 .lock-background{

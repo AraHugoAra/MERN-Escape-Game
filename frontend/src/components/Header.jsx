@@ -1,11 +1,11 @@
-import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
+// import * as React from 'react';
+// import AppBar from '@mui/material/AppBar';
+// import Box from '@mui/material/Box';
+// import Toolbar from '@mui/material/Toolbar';
+// import Typography from '@mui/material/Typography';
+// import Button from '@mui/material/Button';
 import '../main.css'
-import { Link } from '@mui/material';
+// import { Link } from '@mui/material';
 import { NavLink } from 'react-router-dom';
 import { useState } from 'react';
 import { useEffect } from 'react';
@@ -62,7 +62,7 @@ const Header = () => {
     return (
 
         <header>
-            <ul>
+            <ul className='header-list'>
                 <li><NavLink to="/"><img className='logo' src="../assets/logo-esc.png" alt=""></img></NavLink></li>
                 {!loading & authentified ? (
                     <>
@@ -70,9 +70,9 @@ const Header = () => {
                             Bonjour {user.userName}
                         </p>
                         
-                        <Link href="/history">
+                        <a className='header-history' href="/history">
                             Historique
-                        </Link>
+                        </a>
                         
                     <p  onClick={handleDisconnect}>
                             Déconnexion
@@ -82,9 +82,9 @@ const Header = () => {
                     null
                 )}
                 {!authentified & !loading ? (             
-                        <Link  href="/login">
+                        <a className='connexion'  href="/login">
                             Connexion
-                        </Link>              
+                        </a>              
                 ) : (
                     null
                 )}
