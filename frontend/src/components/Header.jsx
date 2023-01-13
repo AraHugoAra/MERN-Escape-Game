@@ -66,25 +66,25 @@ const Header = () => {
                 <li><NavLink to="/"><img className='logo' src="../assets/logo-esc.png" alt=""></img></NavLink></li>
                 {!loading & authentified ? (
                     <>
-                        <p>
+                        <li>
                             Bonjour {user.userName}
-                        </p>
+                        </li>
                         
-                        <a className='header-history' href="/history">
+                        <li><a className='header-history' href="/history">
                             Historique
-                        </a>
+                        </a></li>
                         
-                    <p  onClick={handleDisconnect}>
+                    <li className='header-deconnexion'  onClick={handleDisconnect}>
                             Déconnexion
-                    </p>
+                    </li>
                     </>
                 ) : (
                     null
                 )}
                 {!authentified & !loading ? (             
-                        <a className='connexion'  href="/login">
+                       <li><a className='connexion'  href="/login">
                             Connexion
-                        </a>              
+                        </a></li>             
                 ) : (
                     null
                 )}

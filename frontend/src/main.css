@@ -8,20 +8,14 @@
  ul{
    padding: 0;
  }
+
  /* HEADER */
-
- /* .header-container {
-    max-width: 1250px;
-    display: flex;
-    justify-content: space-between;
- } */
-
 .logo{
     width: 86px;
     height: 40px;
 }
 header{
-   background: purple;
+   background: #6059bd;
    padding: 0 11px;
    height: 80px;
  }
@@ -29,26 +23,25 @@ header{
    display: flex;
    align-items: center;
    margin: auto ;
-   max-width: 1250px;
+   max-width: 1155px;
    justify-content: space-between;
    color: white;
    font-size: 1.5rem;
+   padding-top: 17px;
  }
  .header-history{
    color: red;
    text-decoration: none;
  }
 
- 
  .connexion{
-   /* margin-left: auto; */
-   text-transform: uppercase;
    color: white;
    text-decoration: none;
  }
- /* .header-deconnexion{
-   color: white;
- } */
+ .header-deconnexion{
+   cursor: pointer;
+ }
+
  /* FORMS (SignIn & SignUp */
 
 .lock-background{
