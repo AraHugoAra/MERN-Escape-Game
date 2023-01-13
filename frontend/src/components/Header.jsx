@@ -60,7 +60,6 @@ const Header = () => {
     }
 
     return (
-
         <header>
             <ul className='header-list'>
                 <li><NavLink to="/"><img className='logo' src="../assets/logo-esc.png" alt=""></img></NavLink></li>
