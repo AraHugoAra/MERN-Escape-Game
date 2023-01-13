@@ -68,7 +68,7 @@ const Header = () => {
                         <img className='logo' src='../assets/logo-esc.png' alt='escape-game-logo'/>
                     </NavLink>
                 </Typography>
-                {!loading & authentified ? (
+                {!loading && authentified && (
                     <>
                         <Typography variant="h6" component="div">
                             Bonjour {user.userName}
@@ -82,17 +82,13 @@ const Header = () => {
                             Déconnexion
                     </Button>
                 </>
-                ) : (
-                    null
                 )}
-                {!authentified & !loading ? (
+                {!authentified && !loading && (
                     <Button color="inherit">
                         <Link color="secondary" sx={{ textDecoration: "none" }} href="/login">
                             Connexion
                         </Link>
                     </Button>
-                ) : (
-                    null
                 )}
             </Toolbar>
             </AppBar>
