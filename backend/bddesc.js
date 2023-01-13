@@ -1,4 +1,4 @@
-const bddesc = [
+const bddesc =    [
     {
         "name": "Ghost Buster",
         "age": 16,
@@ -8,7 +8,7 @@ const bddesc = [
         "price": 99,
         "minplayers": 4,
         "planning": [
-            {
+            {  
                 day: "monday",
                 morning: true,
                 afternoon: false
@@ -241,7 +241,7 @@ const bddesc = [
             {
                 day: "monday",
                 morning: true,
-                afternoon: false
+                afternoon: false,
             },
             {
                 day: "tuesday",

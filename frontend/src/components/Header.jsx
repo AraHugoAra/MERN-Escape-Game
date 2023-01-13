@@ -1,11 +1,11 @@
-import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
+// import * as React from 'react';
+// import AppBar from '@mui/material/AppBar';
+// import Box from '@mui/material/Box';
+// import Toolbar from '@mui/material/Toolbar';
+// import Typography from '@mui/material/Typography';
+// import Button from '@mui/material/Button';
 import '../main.css'
-import { Link } from '@mui/material';
+// import { Link } from '@mui/material';
 import { NavLink } from 'react-router-dom';
 import { useState } from 'react';
 import { useEffect } from 'react';
@@ -60,39 +60,73 @@ const Header = () => {
     }
 
     return (
-            <Box>
-            <AppBar position="static">
-            <Toolbar>
-                <Typography variant="h6" component="div">
-                    <NavLink to="/">
-                        <img className='logo' src='../assets/logo-esc.png' alt='escape-game-logo'/>
-                    </NavLink>
-                </Typography>
-                {!loading && authentified && (
+        <header>
+            <ul className='header-list'>
+                <li><NavLink to="/"><img className='logo' src="../assets/logo-esc.png" alt=""></img></NavLink></li>
+                {!loading & authentified ? (
                     <>
-                        <Typography variant="h6" component="div">
+                        <li>
                             Bonjour {user.userName}
-                        </Typography>
-                        <Button color="secondary">
-                            <Link color="secondary" sx={{ textDecoration: "none" }} href="/history">
-                                Historique
-                            </Link>
-                        </Button>
-                    <Button color="inherit" onClick={handleDisconnect}>
+                        </li>
+                        
+                        <li><a className='header-history' href="/history">
+                            Historique
+                        </a></li>
+                        
+                    <li className='header-deconnexion'  onClick={handleDisconnect}>
                             Déconnexion
-                    </Button>
-                </>
+                    </li>
+                    </>
+                ) : (
+                    null
                 )}
-                {!authentified && !loading && (
-                    <Button color="inherit">
-                        <Link color="secondary" sx={{ textDecoration: "none" }} href="/login">
+                {!authentified & !loading ? (             
+                       <li><a className='connexion'  href="/login">
                             Connexion
-                        </Link>
-                    </Button>
+                        </a></li>             
+                ) : (
+                    null
                 )}
-            </Toolbar>
-            </AppBar>
-            </Box>
+                {/* <li class="connexion">Connexion</li> */}
+            </ul>
+        </header>
+            // <Box>
+            // <AppBar position="static">
+            // <Toolbar>
+            //     <Typography variant="h6" component="div">
+            //         <NavLink to="/">
+            //             <img className='logo' src='../assets/logo-esc.png' alt='escape-game-logo'/>
+            //         </NavLink>
+            //     </Typography>
+            //     {!loading & authentified ? (
+            //         <>
+            //             <Typography variant="h6" component="div">
+            //                 Bonjour {user.userName}
+            //             </Typography>
+            //             <Button color="secondary">
+            //                 <Link color="secondary" sx={{ textDecoration: "none" }} href="/history">
+            //                     Historique
+            //                 </Link>
+            //             </Button>
+            //         <Button color="inherit" onClick={handleDisconnect}>
+            //                 Déconnexion
+            //         </Button>
+            //     </>
+            //     ) : (
+            //         null
+            //     )}
+            //     {!authentified & !loading ? (
+            //         <Button color="inherit">
+            //             <Link color="secondary" sx={{ textDecoration: "none" }} href="/login">
+            //                 Connexion
+            //             </Link>
+            //         </Button>
+            //     ) : (
+            //         null
+            //     )}
+            // </Toolbar>
+            // </AppBar>
+            // </Box>
     );
 }
 
