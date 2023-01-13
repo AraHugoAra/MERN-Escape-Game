@@ -40,7 +40,7 @@ const RoomPlanning = ({ planning, roomId, setUpdating }) => {
         }
     }
 
-    function handleBooking(day, time, userParsed) {
+    function handleBooking(day, index, time, userParsed) {
         if(userParsed === null) return
         const putBody = {
             day: day.day,
@@ -57,7 +57,7 @@ const RoomPlanning = ({ planning, roomId, setUpdating }) => {
             userId: userParsed.userId,
             roomId: roomId,
             time: time,
-            date: dayjs().format('YYYY-MM-DD')
+            date: dayjs(`2023-07-${1+index}`).format('YYYY-MM-DD')
         }
         if(userParsed.userId) {
             putFetch(putBody)
@@ -82,7 +82,7 @@ const RoomPlanning = ({ planning, roomId, setUpdating }) => {
                                     variant="contained"
                                     color="success"
                                     disabled={!day.morning}
-                                    onClick={() => handleBooking(day, "morning", userParsed)}
+                                    onClick={() => handleBooking(day, index, "morning", userParsed)}
                                 >
                                     Matin
                                 </Button>
@@ -91,7 +91,7 @@ const RoomPlanning = ({ planning, roomId, setUpdating }) => {
                                     color="success"
                                     variant="contained"
                                     disabled={!day.afternoon}
-                                    onClick={() => handleBooking(day, "afternoon", userParsed)}
+                                    onClick={() => handleBooking(day, index, "afternoon", userParsed)}
                                 >
                                     Aprèm
                                 </Button>

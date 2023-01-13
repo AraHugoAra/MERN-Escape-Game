@@ -16,8 +16,8 @@ const SignIn = () => {
             const data = await response.json()
             localStorage.setItem("user", JSON.stringify({
                 token: data.token,
-                userName: data.user[0].userName,
-                userId: data.user[0]._id
+                userName: data.user[0]?.userName,
+                userId: data.user[0]?._id
             }))
             window.location="/"
         }
