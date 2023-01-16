@@ -26,7 +26,7 @@ const bookingsRoutes = (app) => {
     app.get('/bookings/sort/user', async (req,res)=> {
         // const userId = req.body.userId
         const bookings = await Bookings.find({userId: req.headers.authorization})
-        res.json({status:200, bookings:bookings})      
+        res.json({status:200, bookings:bookings})
 })
 
     app.post('/bookings/add', async (req,res) => {
@@ -41,7 +41,12 @@ const bookingsRoutes = (app) => {
         const result = await bookings.save()   
         res.json({status:200,result:result})    
     })
-    
+
+    app.delete('/bookings/delete', async (req,res)=> {
+        const id = req.body.id
+        const booking = await Bookings.deleteOne({_id: id})
+        res.json({status:200, booking:booking})      
+})
 }
 
 module.exports = bookingsRoutes
