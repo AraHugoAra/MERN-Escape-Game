@@ -1,30 +1,28 @@
-import Header from "./components/Header"
-import { createTheme } from '@mui/material';
-import { ThemeProvider } from '@emotion/react';
+import Header from "./components/Header";
+import { createTheme } from "@mui/material";
+import { ThemeProvider } from "@emotion/react";
 import SignIn from "./components/SignIn";
 import SignUp from "./components/SignUp";
 import Footer from "./components/Footer";
 import Home from "./components/Home";
 import RoomDetails from "./components/RoomDetails";
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route } from "react-router-dom";
 import History from "./components/History";
 
 const theme = createTheme({
-    palette: {
-        primary: {
-            main: "#6059bd",
-        },
-        secondary:{
-          main: "#fff"
-        }
-
-    }
-})
+  palette: {
+    primary: {
+      main: "#6059bd",
+    },
+    secondary: {
+      main: "#fff",
+    },
+  },
+});
 function App() {
-
   return (
     <ThemeProvider theme={theme}>
-      <Header />  
+      <Header />
       <Routes>
         <Route path="/login" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
@@ -34,7 +32,7 @@ function App() {
       </Routes>
       <Footer />
     </ThemeProvider>
-  )
+  );
 }
 
-export default App
+export default App;
