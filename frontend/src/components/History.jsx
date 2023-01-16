@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
-import { Container, Typography } from '@mui/material'
+import { Button, Container, Typography, IconButton } from '@mui/material'
 import { useState } from 'react';
 import dayjs from 'dayjs'
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 const History = () => {
     const user = localStorage.getItem('user')
@@ -13,6 +14,7 @@ const History = () => {
     const [ bookings, setBookings ] = useState(null)
     const [ rooms, setRooms ] = useState(null)
     const [ loading, setLoading ] = useState(true)
+    const [ updating, setUpdating ] = useState(false)
 
     const englishTime = ["morning", "afternoon"]
     const frenchTime = ["matin", "après-midi"]
@@ -56,15 +58,81 @@ const History = () => {
 
     useEffect(() => {
         getHistory()
-    }, [])
+    }, [updating])
 
     useEffect(() => {
         (rooms && bookings) && setLoading(false)
     }, [rooms, bookings])
 
-    const getRoomName = (roomId) => {
-        const roomName = rooms.filter(room => room._id === roomId)
-        return roomName[0].name
+    const getRoom = (roomId) => {
+        const room = rooms.filter(room => room._id === roomId)
+        return room[0]
+    }
+
+    const deleteBooking = async (body) => {
+        try {
+            await fetch('http://localhost:3000/bookings/delete', {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    id: body
+                })
+            })
+        }
+        catch(error) {
+            console.log('Delete error: ', error)
+        }
+    }
+
+    const updateRooms = async (putBody, roomId) => {
+        try {
+            await fetch(`http://localhost:3000/rooms/update/${roomId}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json'},
+                body: JSON.stringify(putBody)
+            })
+        }
+        catch(error) {
+            console.log('updateRooms error: ', error)
+        }
+    }
+
+    const handleDelete = async (putBody, deleteBody) => {
+        const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+        const bookingDay = dayjs(putBody.date).format('dddd')
+        const indexDay = days.indexOf(bookingDay)
+        const roomId = putBody.roomId
+
+        const JSDate = new Date
+        const JSDay = JSDate.getDay()
+        let indexJS
+        if((JSDay + indexDay) < 7){
+            indexJS = JSDay + indexDay
+        }
+        else {
+            indexJS = 0
+        }
+        let bodyDayIndex
+        if(indexJS +1 < 7){
+            bodyDayIndex = indexJS +1
+        }
+        else {
+            bodyDayIndex = 0
+        }
+
+        const body = {
+            day: days[bodyDayIndex].toLowerCase(),
+            morning: true,
+            afternoon: true
+        }
+        putBody.time === "morning" ? (
+            body.afternoon = getRoom(roomId).planning[indexJS].afternoon
+        ) : (
+            body.morning = getRoom(roomId).planning[indexJS].morning
+        )
+        await updateRooms(body, roomId)
+        await deleteBooking(deleteBody)
+        setUpdating(u => !u)
     }
 
     return (
@@ -75,14 +143,28 @@ const History = () => {
             {!loading && (
                 <List>
                     {bookings.map(booking => (
-                    <ListItem key={booking._id}>
-                        <ListItemText
-                        primary={`${getRoomName(booking.roomId)}`}
-                        secondary={
-                            `${frenchTime[englishTime.indexOf(booking.time)]} - ${frenchDays[englishDays.indexOf(dayjs(booking.date).format('dddd'))]} ${dayjs(booking.date).format('DD/MM')}`
-                        }
-                        />
-                    </ListItem>
+                        <div key={booking._id}>
+                            <ListItem>
+                                <ListItemText
+                                primary={`${getRoom(booking.roomId).name}`}
+                                secondary={
+                                    `${frenchTime[englishTime.indexOf(booking.time)]} - ${frenchDays[englishDays.indexOf(dayjs(booking.date).format('dddd'))]} ${dayjs(booking.date).format('DD/MM')}`
+                                }
+                                />
+                            </ListItem>
+                            <IconButton 
+                                onClick={
+                                    () => handleDelete(
+                                        {time: booking.time,
+                                        date: booking.date,
+                                        roomId: booking.roomId},
+                                        booking._id
+                                        )
+                                }
+                            >
+                                <DeleteForeverIcon />
+                            </IconButton>
+                        </div>
                     ))}
                 </List>
             )}
@@ -91,15 +173,3 @@ const History = () => {
 }
 
 export default History;
-
-// <>
-//             <ul>
-//                 {bookings.map(booking => (
-//                     <li key={booking._id}>
-//                         {getRoomName(booking.roomId)}
-//                         {frenchTime[englishTime.indexOf(booking.time)]}
-//                         {frenchDays[englishDays.indexOf(dayjs(booking.date).format('dddd'))]}
-//                         {dayjs(booking.date).format('DD/MM')}
-//                     </li>
-//                 ))}
-//             </ul>
