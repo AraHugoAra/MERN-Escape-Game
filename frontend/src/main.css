@@ -171,11 +171,15 @@ footer h3 {
   margin: 0 5px;
 }
 
+.footer-list {
+  margin: auto;
+}
+
 /* HOME LIST */
 
-/* .home-list {
-padding: 0;
-} */
+.home-list {
+margin: 2rem 0;
+}
 
 .home-list li {
   margin: auto;
@@ -186,7 +190,8 @@ padding: 0;
   .home-list {
     display: flex;
     flex-wrap: wrap;
-    margin: auto;
+    /* margin: auto; */
+    margin: 2rem auto;
     max-width: 1250px;
   }
 }

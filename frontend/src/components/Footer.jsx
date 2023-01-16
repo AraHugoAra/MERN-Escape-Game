@@ -2,7 +2,7 @@ import FacebookOutlinedIcon from "@mui/icons-material/FacebookOutlined";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import GitHubIcon from "@mui/icons-material/GitHub";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 const Footer = () => {
   return (
@@ -17,12 +17,12 @@ const Footer = () => {
             />
           </Link>
           <ul>
-            <li>
-              <a href="/">Accueil |</a>
+            <li className="footer-list">
+              <NavLink to="/">Accueil</NavLink>
             </li>
-            <li>
-              <a href="#">Historique</a>
-            </li>
+            {/* <li>
+              <NavLink to="/history">| Historique</NavLink>
+            </li> */}
           </ul>
         </div>
         <div className="footer-item">
