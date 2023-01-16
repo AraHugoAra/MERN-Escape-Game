@@ -1,135 +1,86 @@
-// import * as React from 'react';
-// import AppBar from '@mui/material/AppBar';
-// import Box from '@mui/material/Box';
-// import Toolbar from '@mui/material/Toolbar';
-// import Typography from '@mui/material/Typography';
-// import Button from '@mui/material/Button';
-import '../main.css'
-// import { Link } from '@mui/material';
-import { NavLink } from 'react-router-dom';
-import { useState } from 'react';
-import { useEffect } from 'react';
-
-
+import "../main.css";
+import { NavLink } from "react-router-dom";
+import { useState } from "react";
+import { useEffect } from "react";
 
 const Header = () => {
+  const storage = localStorage.getItem("user");
+  const [user, setUser] = useState(storage ? JSON.parse(storage) : "");
 
-    const storage = localStorage.getItem('user')
-    const [ user, setUser ] = useState(
-        storage 
-        ? JSON.parse(storage)
-        : ""
-        )
+  const [authentified, setAuthentified] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [updating, setUpdating] = useState(false);
 
-    const [ authentified, setAuthentified ] = useState(false)
-    const [ loading, setLoading ] = useState(true)
-
-    const checkAuth = async () => {
-        setLoading(true)
-        try {
-            const resp = await fetch('http://localhost:3000/checkToken', {
-                method: 'GET',
-                headers: { 
-                    'Content-Type': 'application/json',
-                    'authorization': user.token
-                },
-                })
-            const data = await resp.json()
-            setLoading(false)
-            if(data.status === 200) {
-                setAuthentified(true)
-            }
-        }
-        catch(err) {
-            setAuthentified(false)
-            setLoading(false)
-        }
+  const checkAuth = async () => {
+    setLoading(true);
+    try {
+      const resp = await fetch("http://localhost:3000/checkToken", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: user.token,
+        },
+      });
+      const data = await resp.json();
+      setLoading(false);
+      if (data.status === 200) {
+        setAuthentified(true);
+      }
+    } catch (err) {
+      setAuthentified(false);
+      setLoading(false);
     }
+  };
 
-    useEffect(() => {
-        user.token
-        && checkAuth()
-        setLoading(false)
-        // : setAuthentified(false)
-    }, [user])
+  useEffect(() => {
+    user.token && checkAuth();
+    setLoading(false);
+    // : setAuthentified(false)
+  }, [user, updating]);
 
-    const handleDisconnect = () => {
-        localStorage.removeItem('user')
-        setUser("")
-        window.location = "/login"
-    }
+  // const navigate = useNavigate();
+  const handleDisconnect = () => {
+    localStorage.removeItem("user");
+    setUser("");
+    window.location = "/login";
+    // setUpdating(u => !u)
+    // return navigate('/login')
+  };
 
-    return (
-        <header>
-            <ul className='header-list'>
-                <li><NavLink to="/"><img className='logo' src="../assets/logo-esc.png" alt=""></img></NavLink></li>
-                {!loading & authentified ? (
-                    <>
-                        <li>
-                            Bonjour {user.userName}
-                        </li>
-                        
-                        <li><a className='header-history' href="/history">
-                            Historique
-                        </a></li>
-                        
-                    <li className='header-deconnexion'  onClick={handleDisconnect}>
-                            Déconnexion
-                    </li>
-                    </>
-                ) : (
-                    null
-                )}
-                {!authentified & !loading ? (             
-                       <li><a className='connexion'  href="/login">
-                            Connexion
-                        </a></li>             
-                ) : (
-                    null
-                )}
-                {/* <li class="connexion">Connexion</li> */}
-            </ul>
-        </header>
-            // <Box>
-            // <AppBar position="static">
-            // <Toolbar>
-            //     <Typography variant="h6" component="div">
-            //         <NavLink to="/">
-            //             <img className='logo' src='../assets/logo-esc.png' alt='escape-game-logo'/>
-            //         </NavLink>
-            //     </Typography>
-            //     {!loading & authentified ? (
-            //         <>
-            //             <Typography variant="h6" component="div">
-            //                 Bonjour {user.userName}
-            //             </Typography>
-            //             <Button color="secondary">
-            //                 <Link color="secondary" sx={{ textDecoration: "none" }} href="/history">
-            //                     Historique
-            //                 </Link>
-            //             </Button>
-            //         <Button color="inherit" onClick={handleDisconnect}>
-            //                 Déconnexion
-            //         </Button>
-            //     </>
-            //     ) : (
-            //         null
-            //     )}
-            //     {!authentified & !loading ? (
-            //         <Button color="inherit">
-            //             <Link color="secondary" sx={{ textDecoration: "none" }} href="/login">
-            //                 Connexion
-            //             </Link>
-            //         </Button>
-            //     ) : (
-            //         null
-            //     )}
-            // </Toolbar>
-            // </AppBar>
-            // </Box>
-    );
-}
+  return (
+    <header>
+      <ul className="header-list">
+        <li>
+          <NavLink to="/">
+            <img className="logo" src="../assets/logo-esc.png" alt=""></img>
+          </NavLink>
+        </li>
+        {!loading && authentified ? (
+          <>
+            <li>Bonjour {user.userName}</li>
+
+            <li>
+              <NavLink to="/history" className="header-history">
+                Historique
+              </NavLink>
+            </li>
+
+            <li className="header-deconnexion" onClick={handleDisconnect}>
+              Déconnexion
+            </li>
+          </>
+        ) : null}
+        {!authentified && !loading ? (
+          <li>
+            <NavLink className="connexion" to="/login">
+              Connexion
+            </NavLink>
+          </li>
+        ) : null}
+        {/* <li class="connexion">Connexion</li> */}
+      </ul>
+    </header>
+  );
+};
 
 export default Header;
-
-
